@@ -1,0 +1,16 @@
+[Unit]
+Description=testService
+Requires=docker.service
+After=docker.service
+[Service]
+Restart=always
+User=ubuntu
+Group=docker
+# Shutdown container (if running) when unit is stopped
+ExecStartPre=/usr/local/bin/docker-compose -f /home/ubuntu/docker/BackendDemoProject/docker-compose.yml --compatibility down -v
+# Start container when unit is started
+ExecStart=/usr/local/bin/docker-compose -f /home/ubuntu/docker/BackendDemoProject/docker-compose.yml  --compatibility up
+# Stop container when unit is stopped
+ExecStop=/usr/local/bin/docker-compose -f /home/ubuntu/docker/BackendDemoProject/docker-compose.yml  --compatibility down -v
+[Install]
+WantedBy=multi-user.target
